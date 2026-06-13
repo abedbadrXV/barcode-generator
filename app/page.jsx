@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import JsBarcode from 'jsbarcode';
 
 export default function BarcodeGenerator() {
@@ -48,11 +48,7 @@ export default function BarcodeGenerator() {
         <head>
           <title>Barcode Label</title>
           <style>
-            body {
-              margin: 0;
-              padding: 0;
-              font-family: Arial, sans-serif;
-            }
+            body { margin: 0; padding: 0; font-family: Arial, sans-serif; }
             .label {
               width: ${labelWidth}px;
               height: ${labelHeight}px;
@@ -62,58 +58,18 @@ export default function BarcodeGenerator() {
               flex-direction: column;
               justify-content: space-around;
               align-items: center;
-              page-break-after: always;
-              border: 1px solid #ddd;
             }
-            .text-above {
-              font-size: ${labelHeight * 0.12}px;
-              font-weight: bold;
-              text-align: center;
-              width: 100%;
-              word-wrap: break-word;
-            }
-            .barcode-container {
-              width: 90%;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-            }
-            .barcode-container svg {
-              max-width: 100%;
-              height: auto;
-            }
-            .barcode-number {
-              font-size: ${labelHeight * 0.08}px;
-              font-family: 'Courier New', monospace;
-              text-align: center;
-              margin-top: 2px;
-            }
-            .text-below {
-              font-size: ${labelHeight * 0.1}px;
-              font-weight: bold;
-              text-align: center;
-              width: 100%;
-              word-wrap: break-word;
-            }
-            @media print {
-              body {
-                margin: 0;
-                padding: 0;
-              }
-              .label {
-                border: none;
-                margin: 0;
-                padding: 0.1in 0.15in;
-              }
-            }
+            .text-above { font-size: ${labelHeight * 0.12}px; font-weight: bold; text-align: center; }
+            .barcode-container { width: 90%; display: flex; justify-content: center; }
+            .barcode-container svg { max-width: 100%; height: auto; }
+            .barcode-number { font-size: ${labelHeight * 0.08}px; font-family: 'Courier New', monospace; text-align: center; margin-top: 2px; }
+            .text-below { font-size: ${labelHeight * 0.1}px; font-weight: bold; text-align: center; }
           </style>
         </head>
         <body>
           <div class="label">
             ${textAbove ? `<div class="text-above">${textAbove}</div>` : ''}
-            <div class="barcode-container">
-              <svg id="barcode-print"></svg>
-            </div>
+            <div class="barcode-container"><svg id="barcode-print"></svg></div>
             <div class="barcode-number">${barcode}</div>
             ${textBelow ? `<div class="text-below">${textBelow}</div>` : ''}
           </div>
@@ -141,59 +97,56 @@ export default function BarcodeGenerator() {
     setHeight(preset.height);
   };
 
-  const previewPaddingRatio = 0.08;
-  const previewPx = Math.min(window.innerWidth * 0.3, 300);
-  const previewScale = previewPx / Math.max(width, height);
+  const previewScale = Math.min(300, window.innerWidth * 0.3) / Math.max(width, height);
 
   return (
-    <div style={styles.container}>
-      <div style={styles.header}>
-        <h1 style={styles.title}>Barcode Label Generator</h1>
-        <p style={styles.subtitle}>Design and print labels for your thermal printer</p>
+    <div style={{ minHeight: '100vh', background: '#fafaf9', fontFamily: 'sans-serif', padding: '20px' }}>
+      <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+        <h1 style={{ fontSize: '32px', marginBottom: '8px' }}>Barcode Label Generator</h1>
+        <p style={{ color: '#666', fontSize: '16px' }}>Design and print labels for your thermal printer</p>
       </div>
 
-      <div style={styles.mainGrid}>
-        {/* Controls Panel */}
-        <div style={styles.controlPanel}>
-          <div style={styles.section}>
-            <label style={styles.label}>Barcode Number</label>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px', maxWidth: '1200px', margin: '0 auto' }}>
+        
+        {/* Controls */}
+        <div style={{ background: '#fff', padding: '32px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+          
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{ display: 'block', fontSize: '12px', fontWeight: 'bold', marginBottom: '8px', textTransform: 'uppercase' }}>Barcode Number</label>
             <input
               type="text"
               value={barcode}
               onChange={(e) => setBarcode(e.target.value)}
-              placeholder="Enter barcode (digits)"
-              style={styles.input}
+              style={{ width: '100%', padding: '10px', fontSize: '14px', border: '1px solid #ddd', borderRadius: '4px', boxSizing: 'border-box' }}
             />
           </div>
 
-          <div style={styles.section}>
-            <label style={styles.label}>Text Above</label>
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{ display: 'block', fontSize: '12px', fontWeight: 'bold', marginBottom: '8px', textTransform: 'uppercase' }}>Text Above</label>
             <input
               type="text"
               value={textAbove}
               onChange={(e) => setTextAbove(e.target.value)}
-              placeholder="Optional"
-              style={styles.input}
+              style={{ width: '100%', padding: '10px', fontSize: '14px', border: '1px solid #ddd', borderRadius: '4px', boxSizing: 'border-box' }}
             />
           </div>
 
-          <div style={styles.section}>
-            <label style={styles.label}>Text Below</label>
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{ display: 'block', fontSize: '12px', fontWeight: 'bold', marginBottom: '8px', textTransform: 'uppercase' }}>Text Below</label>
             <input
               type="text"
               value={textBelow}
               onChange={(e) => setTextBelow(e.target.value)}
-              placeholder="Optional"
-              style={styles.input}
+              style={{ width: '100%', padding: '10px', fontSize: '14px', border: '1px solid #ddd', borderRadius: '4px', boxSizing: 'border-box' }}
             />
           </div>
 
-          <div style={styles.section}>
-            <label style={styles.label}>Barcode Format</label>
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{ display: 'block', fontSize: '12px', fontWeight: 'bold', marginBottom: '8px', textTransform: 'uppercase' }}>Barcode Format</label>
             <select
               value={barcodeFormat}
               onChange={(e) => setBarcodeFormat(e.target.value)}
-              style={styles.select}
+              style={{ width: '100%', padding: '10px', fontSize: '14px', border: '1px solid #ddd', borderRadius: '4px' }}
             >
               <option value="CODE128">CODE 128</option>
               <option value="CODE39">CODE 39</option>
@@ -203,20 +156,23 @@ export default function BarcodeGenerator() {
             </select>
           </div>
 
-          <div style={styles.divider}></div>
+          <div style={{ height: '1px', background: '#ddd', margin: '20px 0' }}></div>
 
-          <div style={styles.section}>
-            <label style={styles.label}>Label Size Presets</label>
-            <div style={styles.presetGrid}>
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{ display: 'block', fontSize: '12px', fontWeight: 'bold', marginBottom: '8px', textTransform: 'uppercase' }}>Presets</label>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
               {Object.entries(presets).map(([key, preset]) => (
                 <button
                   key={key}
                   onClick={() => applyPreset(preset)}
                   style={{
-                    ...styles.presetBtn,
-                    ...(width === preset.width && height === preset.height
-                      ? styles.presetBtnActive
-                      : {}),
+                    padding: '10px',
+                    fontSize: '13px',
+                    border: width === preset.width && height === preset.height ? '1px solid #000' : '1px solid #ddd',
+                    background: width === preset.width && height === preset.height ? '#000' : '#fff',
+                    color: width === preset.width && height === preset.height ? '#fff' : '#000',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
                   }}
                 >
                   {preset.name}
@@ -225,330 +181,73 @@ export default function BarcodeGenerator() {
             </div>
           </div>
 
-          <div style={styles.section}>
-            <label style={styles.label}>Custom Size</label>
-            <div style={styles.sizeInputGroup}>
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{ display: 'block', fontSize: '12px', fontWeight: 'bold', marginBottom: '8px', textTransform: 'uppercase' }}>Custom Size</label>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px' }}>
               <div>
-                <label style={styles.smallLabel}>Width</label>
-                <input
-                  type="number"
-                  value={width}
-                  onChange={(e) => setWidth(parseFloat(e.target.value) || 0)}
-                  step="0.1"
-                  min="1"
-                  max="10"
-                  style={styles.numberInput}
-                />
+                <label style={{ fontSize: '11px', display: 'block', marginBottom: '4px' }}>Width</label>
+                <input type="number" value={width} onChange={(e) => setWidth(parseFloat(e.target.value))} step="0.1" style={{ width: '100%', padding: '8px', fontSize: '13px', border: '1px solid #ddd', borderRadius: '4px' }} />
               </div>
               <div>
-                <label style={styles.smallLabel}>Height</label>
-                <input
-                  type="number"
-                  value={height}
-                  onChange={(e) => setHeight(parseFloat(e.target.value) || 0)}
-                  step="0.1"
-                  min="1"
-                  max="10"
-                  style={styles.numberInput}
-                />
+                <label style={{ fontSize: '11px', display: 'block', marginBottom: '4px' }}>Height</label>
+                <input type="number" value={height} onChange={(e) => setHeight(parseFloat(e.target.value))} step="0.1" style={{ width: '100%', padding: '8px', fontSize: '13px', border: '1px solid #ddd', borderRadius: '4px' }} />
               </div>
               <div>
-                <label style={styles.smallLabel}>Unit</label>
-                <select
-                  value={unit}
-                  onChange={(e) => setUnit(e.target.value)}
-                  style={styles.unitSelect}
-                >
+                <label style={{ fontSize: '11px', display: 'block', marginBottom: '4px' }}>Unit</label>
+                <select value={unit} onChange={(e) => setUnit(e.target.value)} style={{ width: '100%', padding: '8px', fontSize: '13px', border: '1px solid #ddd', borderRadius: '4px' }}>
                   <option value="inches">Inches</option>
                   <option value="mm">Millimeters</option>
                 </select>
               </div>
             </div>
-            <p style={styles.hint}>
-              Common thermal printer: 4×6 inches (101×152 mm)
-            </p>
           </div>
 
-          <button onClick={handlePrint} style={styles.printBtn}>
+          <button
+            onClick={handlePrint}
+            style={{
+              width: '100%',
+              padding: '14px',
+              fontSize: '15px',
+              fontWeight: 'bold',
+              background: '#1c1917',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+            }}
+          >
             🖨️ Print Label
           </button>
         </div>
 
-        {/* Preview Panel */}
-        <div style={styles.previewPanel}>
-          <div style={styles.previewHeader}>
-            <h2 style={styles.previewTitle}>Label Preview</h2>
-            <p style={styles.previewDimensions}>
-              {width}" × {height}" ({unit === 'inches' ? 'in' : 'mm'})
-            </p>
-          </div>
-
+        {/* Preview */}
+        <div style={{ background: '#fff', padding: '32px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+          <h2 style={{ marginBottom: '8px', fontSize: '18px' }}>Preview</h2>
+          <p style={{ fontSize: '12px', color: '#666', marginBottom: '20px' }}>{width}" × {height}" ({unit === 'inches' ? 'in' : 'mm'})</p>
+          
           <div
             style={{
-              ...styles.previewContainer,
               width: `${width * previewScale}px`,
               height: `${height * previewScale}px`,
+              border: '2px dashed #ddd',
+              borderRadius: '4px',
+              padding: '8px',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-around',
+              alignItems: 'center',
+              background: '#fef3f2',
             }}
           >
-            {textAbove && (
-              <div
-                style={{
-                  ...styles.previewText,
-                  fontSize: `${Math.max(10, width * previewScale * 0.15)}px`,
-                  marginBottom: `${previewPaddingRatio * width * previewScale}px`,
-                }}
-              >
-                {textAbove}
-              </div>
-            )}
-
-            <div style={styles.barcodeWrap}>
-              <svg ref={barcodeRef} style={styles.barcodeSvg}></svg>
-            </div>
-
-            <div
-              style={{
-                fontSize: `${Math.max(8, width * previewScale * 0.1)}px`,
-                fontFamily: "'Courier New', monospace",
-                marginTop: `${previewPaddingRatio * width * previewScale * 0.5}px`,
-              }}
-            >
-              {barcode}
-            </div>
-
-            {textBelow && (
-              <div
-                style={{
-                  ...styles.previewText,
-                  fontSize: `${Math.max(10, width * previewScale * 0.12)}px`,
-                  marginTop: `${previewPaddingRatio * width * previewScale}px`,
-                }}
-              >
-                {textBelow}
-              </div>
-            )}
+            {textAbove && <div style={{ fontSize: `${width * previewScale * 0.15}px`, fontWeight: 'bold', textAlign: 'center' }}>{textAbove}</div>}
+            <svg ref={barcodeRef} style={{ maxWidth: '90%', height: 'auto' }}></svg>
+            <div style={{ fontSize: `${width * previewScale * 0.1}px`, fontFamily: 'monospace' }}>{barcode}</div>
+            {textBelow && <div style={{ fontSize: `${width * previewScale * 0.12}px`, fontWeight: 'bold', textAlign: 'center' }}>{textBelow}</div>}
           </div>
 
-          <p style={styles.printHint}>
-            ✓ Ready to print. Adjust settings above and preview updates in real-time.
-          </p>
+          <p style={{ fontSize: '12px', color: '#666', marginTop: '16px' }}>✓ Ready to print</p>
         </div>
-      </div>
-
-      <div style={styles.footer}>
-        <p>Built for thermal barcode printers. Supports 2×2" to 4×6" label sizes.</p>
       </div>
     </div>
   );
 }
-
-const styles = {
-  container: {
-    minHeight: '100vh',
-    background: '#fafaf9',
-    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-    padding: '20px',
-  },
-  header: {
-    textAlign: 'center',
-    marginBottom: '40px',
-    paddingBottom: '20px',
-    borderBottom: '1px solid #e7e5e4',
-  },
-  title: {
-    margin: '0 0 8px 0',
-    fontSize: '32px',
-    fontWeight: '700',
-    color: '#1c1917',
-  },
-  subtitle: {
-    margin: '0',
-    fontSize: '16px',
-    color: '#78716d',
-  },
-  mainGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'minmax(320px, 1fr) minmax(300px, 1fr)',
-    gap: '40px',
-    maxWidth: '1200px',
-    margin: '0 auto 60px',
-  },
-  controlPanel: {
-    background: '#fff',
-    padding: '32px',
-    borderRadius: '8px',
-    boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-  },
-  section: {
-    marginBottom: '24px',
-  },
-  label: {
-    display: 'block',
-    fontSize: '13px',
-    fontWeight: '600',
-    color: '#1c1917',
-    marginBottom: '8px',
-    textTransform: 'uppercase',
-    letterSpacing: '0.5px',
-  },
-  input: {
-    width: '100%',
-    padding: '10px 12px',
-    fontSize: '14px',
-    border: '1px solid #d6d3d1',
-    borderRadius: '4px',
-    boxSizing: 'border-box',
-    fontFamily: 'inherit',
-  },
-  select: {
-    width: '100%',
-    padding: '10px 12px',
-    fontSize: '14px',
-    border: '1px solid #d6d3d1',
-    borderRadius: '4px',
-    boxSizing: 'border-box',
-    fontFamily: 'inherit',
-    background: '#fff',
-    cursor: 'pointer',
-  },
-  divider: {
-    height: '1px',
-    background: '#e7e5e4',
-    margin: '32px 0',
-  },
-  presetGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(2, 1fr)',
-    gap: '8px',
-  },
-  presetBtn: {
-    padding: '12px',
-    fontSize: '13px',
-    fontWeight: '500',
-    border: '1px solid #d6d3d1',
-    borderRadius: '4px',
-    background: '#fff',
-    cursor: 'pointer',
-    transition: 'all 0.2s',
-    color: '#78716d',
-  },
-  presetBtnActive: {
-    background: '#1c1917',
-    color: '#fff',
-    borderColor: '#1c1917',
-  },
-  sizeInputGroup: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(3, 1fr)',
-    gap: '8px',
-  },
-  smallLabel: {
-    display: 'block',
-    fontSize: '12px',
-    fontWeight: '600',
-    color: '#78716d',
-    marginBottom: '4px',
-  },
-  numberInput: {
-    width: '100%',
-    padding: '8px',
-    fontSize: '13px',
-    border: '1px solid #d6d3d1',
-    borderRadius: '4px',
-    boxSizing: 'border-box',
-    fontFamily: 'inherit',
-  },
-  unitSelect: {
-    width: '100%',
-    padding: '8px',
-    fontSize: '13px',
-    border: '1px solid #d6d3d1',
-    borderRadius: '4px',
-    boxSizing: 'border-box',
-    background: '#fff',
-    cursor: 'pointer',
-  },
-  hint: {
-    fontSize: '12px',
-    color: '#b1aca7',
-    margin: '8px 0 0 0',
-  },
-  printBtn: {
-    width: '100%',
-    padding: '14px',
-    fontSize: '15px',
-    fontWeight: '600',
-    background: '#1c1917',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    transition: 'background 0.2s',
-  },
-  previewPanel: {
-    background: '#fff',
-    padding: '32px',
-    borderRadius: '8px',
-    boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  previewHeader: {
-    textAlign: 'center',
-    marginBottom: '24px',
-    width: '100%',
-  },
-  previewTitle: {
-    margin: '0 0 4px 0',
-    fontSize: '18px',
-    fontWeight: '600',
-    color: '#1c1917',
-  },
-  previewDimensions: {
-    margin: '0',
-    fontSize: '12px',
-    color: '#78716d',
-  },
-  previewContainer: {
-    border: '2px dashed #d6d3d1',
-    borderRadius: '4px',
-    padding: '8px',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    background: '#fef3f2',
-    boxSizing: 'border-box',
-    marginBottom: '16px',
-  },
-  previewText: {
-    fontWeight: '600',
-    textAlign: 'center',
-    color: '#1c1917',
-    wordWrap: 'break-word',
-    width: '100%',
-  },
-  barcodeWrap: {
-    width: '90%',
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  barcodeSvg: {
-    maxWidth: '100%',
-    height: 'auto',
-  },
-  printHint: {
-    fontSize: '12px',
-    color: '#78716d',
-    margin: '0',
-    textAlign: 'center',
-  },
-  footer: {
-    textAlign: 'center',
-    color: '#78716d',
-    fontSize: '13px',
-    borderTop: '1px solid #e7e5e4',
-    paddingTop: '20px',
-  },
-};
