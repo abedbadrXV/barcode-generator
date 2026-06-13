@@ -1,0 +1,16 @@
+{
+  "name": "barcode-generator",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "next": "^14.2.35",
+    "jsbarcode": "^3.11.5"
+  }
+}
